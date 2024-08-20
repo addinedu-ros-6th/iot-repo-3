@@ -1,0 +1,45 @@
+class Elevator():
+    def __init__(self):
+        self.present_floor = 1 # 현재 층
+        self.up = False # 상승
+        self.down = False # 하강
+        self.stop = True # 정지
+        self.goal = 1 # 목표 층
+        self.end_floor = 1 # 가능 방향 중 가장 먼 목표 층
+        self.total_list = []
+        self.ul = [] # 상승 시 멈춰야할 층 리스트
+        self.dl = [] # 하강 시 멈춰야할 층 리스트
+        self.door_closed = False
+
+    def up_list(self, uid_goal): # 상승 시 멈춰야할 층 입력 (rfid 사용 시 호출)
+        self.ul.append(uid_goal) # ul 상승 시 멈춰야할 층
+        self.ul = list(set(self.ul))
+        self.ul.sort()
+
+    def down_list(self, button_goal): # 하강 시 멈춰야할 층 입력 (물리버튼 사용 시 호출)
+        self.dl.append(button_goal) # dl 하강 시 멈춰야할 층
+        self.dl = list(set(self.dl))
+        self.dl.sort(reverse=True)
+
+    def up_and_down(self, floor): # 상승 or 하강 판별
+        self.plus_minus = abs((floor - self.present_floor)) / (floor - self.present_floor)
+        print(self.plus_minus)
+        
+    def status(self): # 상승, 하강, 정지 boolean True인 값 리턴
+        if self.end_floor > self.present_floor:
+            self.up = True
+            self.down = False
+            self.stop = False
+
+        elif self.end_floor < self.present_floor:
+            self.down = True
+            self.up = False
+            self.stop = False
+        else:
+            self.stop = True
+            self.up = False
+            self.down = False
+        
+        return {key: value for key, value in vars(self).items() if value is True}
+    
+Elev = Elevator() # 객체 생성
