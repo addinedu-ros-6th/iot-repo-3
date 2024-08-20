@@ -27,14 +27,14 @@ class MainWindow(QMainWindow, form_class):         #MainWindow 는 Manager 파�
         self.setupUi(self)                               # Manager222.ui 파일 로드 및 설정
     
         self.pushButton.clicked.connect(self.open_register_window) # 회원등록 버튼을 눌렀을 때 Register창이 열리는 함수 실행
-        self.pushButton_2.clicked.connect(self.open_elevator_window) # 엘리베이터현황 버튼을 눌렀을 때 Register창이 열림
+        self.pushButton_2.clicked.connect(self.open_elevator_window) # 엘리베이터현황 버튼을 눌렀을 때 elevator 현황창이 열림
         self.setWindowTitle("Manager")
 
     def open_register_window(self):
         self.option_window = OptionWindow(self) #Option Window 클래스 호출
 
     def open_elevator_window(self):
-        self.elevator_window = ElevatorWindow(self) #Elevator Window
+        self.elevator_window = ElevatorWindow(self) #Elevator Window 클래스 호출
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
