@@ -14,33 +14,30 @@ void send_uid(){ // RFID로 읽은 UID를 파이썬으로 전송하는 함수
   char send_buffer[16]; // 문자열 배열 선언
   memset(send_buffer, 0x00,sizeof(send_buffer)); // send_buffer 배열내의 쓰레기값을 0으로 초기화
   memcpy(send_buffer,rc522.uid.uidByte,4); // RFID에서 읽은 UID값이 저장된 rc522.uid에서 처음 4바이트의 정보를 send_buffer에 복사해서 저장
-  Serial.write(send_buffer,4); # send_buffer에 저장된 4바이트를 파이썬으로 전송
-  auth_uid(); // 파이썬에서 데이터베이스를 조회하여 uid를 대조하고 true 나 false값을 받아 서보모터를 동작시키는 함수
+  Serial.write(send_buffer,4); // send_buffer에 저장된 4바이트를 파이썬으로 전송
 }
 
 void auth_uid(){ // 데이터 전송 타이밍을 정확하게 지정하지 못해서 신호가 한번씩 밀리는 상태
-  // char receive[5];
-  // int i = 0;
-  // memset(receive, 0x00,sizeof(receive));
-  // while(Serial.available() > 0 ){  
-  //   receive[i] = Serial.read();
-  //   i++;
-  // }
+   char receive[5];
+   int i = 0;
+   memset(receive, 0x00,sizeof(receive));
+   while(Serial.available() > 0 ){  
+     receive[i] = Serial.read();
+     i++;
+   }
   
-  // receive[4] = '\0';
+   receive[4] = '\0';
 
-  // if (strcmp(receive,"True") == 0) {
-  byte buffer[5];
-  char valid[8];
-  memset(buffer, 0x00,sizeof(buffer));
-  Serial.readBytes(buffer,5);
-  memcpy(valid,buffer,4);
-
-  
-  if (strcmp(valid,"True")==0){
-    servo.write(90);  // 서보모터를 90도로 이동
-    delay(3000);
-    servo.write(0);
+   if (strcmp(receive,"True") == 0) {
+      for (int i = 0 ; i <90 ; i++){
+        servo.write(i);  // 서보모터를 90도로 이동
+        delay(20);
+      }
+      delay(1800);
+      for (int j=90 ; j>0 ; j--){
+        servo.write(j);
+        delay(20);
+      }
 }
 }
 
@@ -54,6 +51,8 @@ servo.write(0); // 서보모터 0도로 초기화
 }
 
 void loop() {
+
+auth_uid();  
 
 if ( ! rc522.PICC_IsNewCardPresent()){ // 카드접촉 여부 확인
   return;
@@ -91,5 +90,5 @@ status = rc522.MIFARE_Write(index, buffer, sizeof(buffer)); // 블록넘버 60�
 
 SPI.begin();  // 카드가 지속적으로 정보를 갱신할 수 있도록 SPI 통신 초기화
 rc522.PCD_Init(); // PCD 리더도 초기화
-delay(3000);
+delay(1500);
 }
