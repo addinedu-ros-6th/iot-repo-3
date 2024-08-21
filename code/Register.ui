@@ -63,7 +63,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Age</string>
+     <string>floor</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -180,7 +180,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="ageEdit">
+   <widget class="QLineEdit" name="floorEdit">
     <property name="geometry">
      <rect>
       <x>160</x>
