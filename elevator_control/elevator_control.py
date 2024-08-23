@@ -129,21 +129,21 @@ class ElevatorApp(QMainWindow):
             Elev.gap = goal_floor - Elev.present_floor
             grad = int(Elev.gap / abs(Elev.gap))
             Elev.status()
-            for i in range(1, Elev.gap + 1):
+            for i in range(1, abs(Elev.gap) + 1):
                 steps = grad * 2000
                 rotate_motor(steps)
-                time.sleep(abs(steps/1000))
+                time.sleep(abs(steps/700))
                 Elev.present_floor = Elev.present_floor + grad
                 self.update_floor_display()
             print(f'{Elev.present_floor}층 문이 열립니다.')
-            time.sleep(1)
+            time.sleep(2)
             print('문이 닫힙니다')
             Elev.gap = 1 - Elev.present_floor
             grad = int(Elev.gap / abs(Elev.gap))
             steps = grad * 2000
             for i in range(1, abs(Elev.gap) + 1):
                 rotate_motor(steps)
-                time.sleep(abs(steps/1000))
+                time.sleep(abs(steps/700))
                 Elev.present_floor = Elev.present_floor + grad
                 self.update_floor_display()
             self.update_floor_display()
@@ -155,11 +155,11 @@ class ElevatorApp(QMainWindow):
             for i in range(1, Elev.gap + 1):
                 steps = grad * 2000
                 rotate_motor(steps)
-                time.sleep(1.5)
+                time.sleep(steps/700)
                 Elev.present_floor = Elev.present_floor + grad
                 self.update_floor_display()
             print(f'{Elev.present_floor}층 문이 열립니다.')
-            time.sleep(1.5)
+            time.sleep(2)
             print('문이 닫힙니다')
             self.update_floor_display()
 
