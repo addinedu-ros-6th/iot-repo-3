@@ -75,19 +75,20 @@ def read_rfid():
                 cursor = user_data.cursor()
                 cursor.execute(f"select uid from User where uid = '{uid}'") # RFID에서 읽은 UID로 데이터베이스의 uid column에서 조회
                 result = cursor.fetchall()
-                result = str(result[0][0])
-                uid = str(uid)
-                print(f"{result}")
-                print(f"Formatted RFID UID: {uid}")
+                if result == []:
+                    print("미등록 카드입니다.")
+                else:
+                    result = str(result[0][0])
+                    uid = str(uid)
+                    print(f"Formatted RFID UID: {uid}")
                 if uid == result:
-                    print(123123)
                     cursor = user_data.cursor()
                     cursor.execute(f"select floor from User where uid = '{uid}'") # RFID에서 읽은 UID로 데이터베이스의 uid column에서 조회
                     result = cursor.fetchall()
                     result = int(result[0][0])
-                    print(result)
                     Elev.up_list(result)
-                    print(Elev.ul[0])
+                    cursor.close()
+                    user_data.close()
                 
 
 
